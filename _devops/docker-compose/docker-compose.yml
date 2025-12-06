@@ -1,0 +1,30 @@
+services:
+  DogRandomService:
+    build: ../../DogRandomService
+    ports:
+      - "8045:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/dogs
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  DogRatingService:
+    build: ../../DogRatingService
+    ports:
+      - "8046:8080"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: doggo
+      POSTGRES_USER: dog
+      POSTGRES_PASSWORD: dog
+    volumes:
+      - ../../init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

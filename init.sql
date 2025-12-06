@@ -1,0 +1,14 @@
+CREATE TABLE "dog_ratings" (
+    "Id" SERIAL PRIMARY KEY,
+    "DogId" BIGINT NOT NULL,
+    "Value" INTEGER NOT NULL CHECK ("Value" >= 1 AND "Value" <= 5),
+    "CreatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE "dog_comments" (
+    "Id" SERIAL PRIMARY KEY,
+    "DogId" BIGINT NOT NULL,
+    "Text" TEXT NOT NULL,
+    "CreatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+

@@ -1,0 +1,25 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Checkout') {
+      steps { checkout([$class: 'GitSCM',
+          userRemoteConfigs: [[url: 'https://github.com/ShilovDO/MyJTask1'
+                              ]],
+                              branches: [[name: 'main']]
+        ])
+    }
+    }
+    stage('build and deploy'){ 
+      steps {
+        sh 'docker-compose -f ./_devops/docker-compose/docker-compose.yml down || true'
+        sh 'docker-compose -f ./_devops/docker-compose/docker-compose.yml up -d'
+      }
+    }
+  }
+      post {
+        always {
+            cleanWs()
+        }
+    } 
+}
